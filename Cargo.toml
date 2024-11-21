@@ -1,0 +1,12 @@
+[package]
+name = "strada"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rusqlite = "0.32.1"
+tokio = { version = "1.41.1", features = ["full"] }
+warp = "0.3.7"
+serde = { version = "1.0.215", features = ["derive"] }
+
+serde_json = "1.0.133"
