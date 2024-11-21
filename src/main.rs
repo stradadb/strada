@@ -1,13 +1,15 @@
 mod database;
-mod parser;
-mod server;
 
-use database::Database;
-use server::start_server;
-use tokio;
+use database::start_server;
+use std::env;
 
 #[tokio::main]
-async fn main() {
-    let db = Database::new("strada.db").expect("Failed to open the database");
-    start_server(db).await;
+async fn main() -> std::io::Result<()> {
+    env_logger::init();
+
+    let database_path = env::var("DATABASE_PATH")
+        .unwrap_or_else(|_| "./strada.db".to_string());
+
+    println!("Starting STRADA database server with: {}", database_path);
+    start_server(database_path).await
 }
