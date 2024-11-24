@@ -2,6 +2,8 @@
 name = "strada"
 version = "0.1.0"
 edition = "2021"
+description = "A lightweight database that runs on the server."
+build = "build.rs" 
 
 [dependencies]
 rusqlite = "0.32.1"
@@ -13,3 +15,15 @@ thiserror = "2.0.3"
 actix-web = "4.9.0"
 log = "0.4.22"
 env_logger = "0.11.5"
+
+[profile.dev]
+opt-level = 2
+debug = false
+panic = "abort"
+
+[profile.release]
+opt-level = "z"
+lto = true
+panic = "abort"
+codegen-units = 1
+strip = "debuginfo"

@@ -1,14 +1,14 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
-use rusqlite::Connection;
 use std::sync::Mutex;
+use crate::database::connection::DatabaseConnection;
 
 pub struct DatabaseState {
-    conn: Mutex<Connection>,
+    conn: Mutex<DatabaseConnection>,
 }
 
 async fn get_schema(data: web::Data<DatabaseState>) -> impl Responder {
     let conn = data.conn.lock().unwrap();
-    match crate::database::parser::SQLiteParser::parse_schema(&conn) {
+    match crate::database::parser::SQLiteParser::parse_schema(&conn.get_connection()) {
         Ok(schema) => HttpResponse::Ok().json(schema),
         Err(_) => HttpResponse::InternalServerError().body("Failed to parse schema"),
     }
@@ -19,14 +19,14 @@ async fn execute_query(
     query: web::Json<String>
 ) -> impl Responder {
     let conn = data.conn.lock().unwrap();
-    match conn.execute(&query.into_inner(), []) {
+    match conn.execute(&query.into_inner()) {
         Ok(rows_affected) => HttpResponse::Ok().json(rows_affected),
         Err(_) => HttpResponse::BadRequest().body("Query execution failed"),
     }
 }
 
 pub async fn start_server(database_path: String) -> std::io::Result<()> {
-    let conn = Connection::open(database_path).expect("Failed to open database");
+    let conn = DatabaseConnection::new(database_path).expect("Failed to open database");
     let db_state = web::Data::new(DatabaseState {
         conn: Mutex::new(conn),
     });

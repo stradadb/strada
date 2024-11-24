@@ -1,6 +1,7 @@
 use rusqlite::{Connection, Result};
 use std::path::Path;
 
+#[derive(Debug)]
 pub struct DatabaseConnection {
     conn: Connection,
 }
@@ -15,9 +16,7 @@ impl DatabaseConnection {
         self.conn.execute(query, [])
     }
 
-    pub fn query<T>(&self, query: &str, mapper: impl Fn(&rusqlite::Row) -> rusqlite::Result<T>) -> Result<Vec<T>> {
-        let mut stmt = self.conn.prepare(query)?;
-        let rows = stmt.query_map([], mapper)?;
-        rows.collect()
+    pub fn get_connection(&self) -> &Connection {
+        &self.conn
     }
 }
