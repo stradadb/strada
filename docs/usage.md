@@ -5,7 +5,7 @@
 cargo run
 
 # With custom database path
-export DATABASE_PATH=/path/to/database.db && cargo run
+export STRADA_DATABASE_PATH=/path/to/database.db && cargo run
 ```
 
 ### API Endpoints
@@ -26,4 +26,21 @@ curl -X POST http://localhost:8080/query \
 curl -X POST http://localhost:8080/query \
      -H "Content-Type: application/json" \
      -d '"INSERT INTO users (name) VALUES (\'John Doe\')"'
+```
+
+#### Get Protected Resource Access a protected route using the token received during login:
+
+```bash
+curl http://localhost:8080/protected \
+     -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+#### Error Handling
+
+If a query execution fails or if authentication fails, the server will respond with appropriate error messages. For example, if a query fails, you might receive a response like:
+
+```json
+{
+    "error": "Query execution failed: [error details]"
+}
 ```

@@ -1,4 +1,5 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use crate::auth::{create_token, validate_token};
 use std::sync::Mutex;
 use crate::database::connection::DatabaseConnection;
 
@@ -21,7 +22,10 @@ async fn execute_query(
     let conn = data.conn.lock().unwrap();
     match conn.execute(&query.into_inner()) {
         Ok(rows_affected) => HttpResponse::Ok().json(rows_affected),
-        Err(_) => HttpResponse::BadRequest().body("Query execution failed"),
+        Err(err) => {
+            eprintln!("Query execution failed: {}", err);
+            HttpResponse::BadRequest().body(format!("Query execution failed: {}", err))
+        }
     }
 }
 
@@ -30,10 +34,11 @@ pub async fn start_server(database_path: String) -> std::io::Result<()> {
     let db_state = web::Data::new(DatabaseState {
         conn: Mutex::new(conn),
     });
-
     HttpServer::new(move || {
         App::new()
             .app_data(db_state.clone())
+            .route("/login", web::post().to(login))
+            .route("/protected", web::get().to(protected_route))
             .route("/schema", web::get().to(get_schema))
             .route("/query", web::post().to(execute_query))
     })

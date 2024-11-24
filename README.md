@@ -1,83 +1,125 @@
-# STRADA: SQLite Database Server
+<div align="center">
+  <img src="./assets/logo.svg" alt="Logo" />
+</div>
+<h1 align="center">STRADA: SQLite Database Server</h1>
+<div align="center">
+  <img src="https://img.shields.io/badge/build-passing-green" alt="Build Status" />
+  <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License" />
+  <img src="https://img.shields.io/badge/rust-1.65%2B-orange" alt="Rust Version" />
+</div>
 
-## Overview
+<div align="center">
 
-STRADA is a lightweight, Rust-based SQLite database server that provides REST API endpoints for database operations.
+**STRADA** is a lightweight, Rust-based SQLite database server that exposes REST API endpoints for interacting with SQLite databases.
+
+</div>
+
+---
 
 ## Features
 
-- SQLite database connection
-- Schema parsing
-- RESTful query execution
-- Async server implementation
+- **SQLite Database Connection**: Provides an easy-to-use interface for interacting with SQLite databases.
+- **Schema Parsing**: Automatic parsing of database schema for seamless interactions.
+- **RESTful Query Execution**: Exposes RESTful API endpoints for querying and modifying the database.
+- **Authentication**: Secure authentication mechanism for API usage.
+- **Async Server**: Fully asynchronous server for high-performance operations.
+
+---
 
 ## Prerequisites
 
-- Rust (1.65+ / 2021 Edition recommended)
-- Cargo (Comes with Rust Installation)
-- SQLite3
+Ensure you have the following installed:
+
+- **Rust** (1.65+ / 2021 Edition recommended)
+- **Cargo** (comes with Rust installation)
+- **SQLite3** (for SQLite operations)
+
+---
 
 ## Installation
 
-1. Clone the repository:
+### Clone the Repository
+
 ```bash
 git clone https://github.com/stradadb/strada.git
 cd strada
 ```
 
-2. Build the project:
+### Build the Project
+
 ```bash
 cargo build --release
 ```
+
+---
 
 ## Configuration
 
 ### Environment Variables
 
-- `DATABASE_PATH`: Path to your SQLite database file
-  - Default: `./strada.db`
+- **`STRADA_DATABASE_PATH`**: Path to your SQLite database file  
+  Default: `./strada.db`
+
+Example:
+```bash
+STRADA_DATABASE_PATH="/path/to/your/database.db"
+```
+
+---
 
 ## Development
 
 ### Running Tests
 
+To run tests for the project, use the following command:
+
 ```bash
 cargo test
 ```
 
-### Building
+### Building the Project
 
-```bash
-# Development build
-cargo build
+- **Development Build**:
+  ```bash
+  cargo build
+  ```
 
-# Release build
-cargo build --release
-```
+- **Release Build**:
+  ```bash
+  cargo build --release
+  ```
 
-## Project Structure
-
-- `src/database/connection.rs`: Database connection management
-- `src/database/parser.rs`: SQLite schema parsing
-- `src/database/server.rs`: HTTP server implementation
-- `src/database/mod.rs`: Mod file for connections
-- `src/main.rs`: Application entry point
+---
 
 ## Dependencies
 
-- `rusqlite`: SQLite database interface
-- `actix-web`: HTTP server framework
-- `tokio`: Async runtime
-- `serde`: Serialization/deserialization
+- `rusqlite`: SQLite database interface for Rust
+- `actix-web`: HTTP server framework for building fast and robust web services
+- `tokio`: Asynchronous runtime for efficient execution
+- `serde`: Serialization and deserialization framework for Rust
+
+---
 
 ## Contributing
 
+We welcome contributions to **STRADA**! To contribute:
+
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+2. Create your feature branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature-branch`)
+5. Open a Pull Request with a detailed description of your changes
+
+---
 
 ## License
 
-[Apache 2.0](LICENSE)
+This project is licensed under the [Apache 2.0 License](LICENSE).
+
+---
+
+Explore a simple demo of STRADA in action:
+
+- **Create a database**
+- **Execute queries via REST API**
+- **Inspect schema dynamically**
